@@ -1,0 +1,41 @@
+from pyamaze import maze, agent, textLabel
+from tkinter import *
+import os
+
+labirinto = maze(6,7)
+
+
+#mapa = labirinto.maze_map
+#print(mapa)
+
+#caminho = labirinto.path
+#print(caminho)
+
+
+labirinto.CreateMaze(5,6, loadMaze="maze--2024-10-09--23-31-14.csv")
+
+
+gato = agent(labirinto, 4,2, footprints=True)
+
+
+caminho = "ESSEENE"
+#caminho = {(4,2): (4,3), (4,3): (5,3), (5,3): (6,3), (6,3): (6,4), (6,4): (6,5),(6,5): (5,5), (5,5): (5,6)}
+
+labirinto.tracePath({gato: caminho}, delay=600)
+
+pastaApp = os.path.dirname(__file__)
+imgLogo = PhotoImage(file=pastaApp+"\\gatosemfundo4.png")
+l_logo = Label(image=imgLogo)
+l_logo.place(x=140, y=315, width=50, height=50)
+
+pastaApp = os.path.dirname(__file__)
+imgLogo2 = PhotoImage(file=pastaApp+"\\racaogato.png")
+l_logo_1 = Label(image=imgLogo2)
+l_logo_1.place(x=500, y=400, width=50, height=50)
+l_logo_1.grid_remove
+
+celulas = labirinto.grid
+print(celulas)
+
+texto = textLabel(labirinto, title="Nº de passos", value=len(caminho))
+labirinto.run()
